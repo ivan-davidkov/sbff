@@ -1,7 +1,15 @@
-# sbff
+# SandBox FireFox aka 'sbff'
 Firefox in a docker container build on apline:edge
 
 This is the Git repo of my [sbff](https://hub.docker.com/r/idavidkov/sandbox_firefox/). See [the Docker Hub page](https://hub.docker.com/r/idavidkov/) for the full readme on how to use this Docker image and for information regarding contributing and issues.
+
+# Build your container
+
+```console
+docker build https://github.com/ivan-davidkov/sbff.git -t local/alpine:firefox 
+```
+the above line will tell docker to get the Dockerfile from github repo and after the build to tag `-t` it (name it) as local/alpine:firefox
+
 
 # Starting a Firefox instance is simple:
 
