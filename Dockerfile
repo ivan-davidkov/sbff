@@ -6,7 +6,9 @@
 #            -e DISPLAY \
 #            -v /tmp/.X11-unix/:/tmp/.X11-unix \
 #            -v /dev/snd:/dev/snd \
-#            --privileged \
+#            -e PULSE_SERVER="unix:/pulse" \
+#            -v ${XDG_RUNTIME_DIR}/pulse/native:/pulse \
+#            --group-add $(getent group audio | cut -d: -f3) \
 #            local/alpine:firefox
 FROM alpine:edge
 MAINTAINER ivan@davidkov.eu
@@ -19,6 +21,8 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/reposi
        firefox-esr \
        libcanberra-gtk2 \
        pulseaudio \
+       mesa-gl \
+       dumb-init \
     && rm -fr /var/cache/apk/* \
     && adduser -D -u 1000 -g 1000 user
 
@@ -28,7 +32,7 @@ WORKDIR /home/user
 # switch to user
 USER user
 
-ENTRYPOINT ["/usr/bin/firefox", "--no-remote"]
+ENTRYPOINT ["/usr/bin/dumb-init", "/usr/bin/firefox", "--no-remote"]
 
 
 
